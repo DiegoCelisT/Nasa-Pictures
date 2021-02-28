@@ -59,11 +59,10 @@ function createSampleCard (){
     return createCard ("Carregando...", "...") //Como não tem url nem description ela vai entrar no else da função createImage
 }
 
-const API_URL = "https://api.nasa.gov/planetary/apod"
-const API_KEY = "7Z5aFEtTEyGbgYlpb57oIQq3UdxF3EnI4x6dKf0p"
-
 
 //PRIMEIRA VERSÃO SEM FUNÇÕES ASSINCRONAS
+// const API_URL = "https://api.nasa.gov/planetary/apod"
+// const API_KEY = "123"
 // const request_url = `${API_URL}?api_key=${API_KEY}&count=10`
 
 // fetch (request_url)
@@ -83,9 +82,14 @@ const API_KEY = "7Z5aFEtTEyGbgYlpb57oIQq3UdxF3EnI4x6dKf0p"
 
 //VERSÃO COM FUNÇÕES ASSINCRONAS:
 
-async function getRandomImages (count) {
+function ApiConnection (){}
+
+ApiConnection.prototype.API_URL = "https://api.nasa.gov/planetary/apod"
+ApiConnection.prototype.API_KEY = "7Z5aFEtTEyGbgYlpb57oIQq3UdxF3EnI4x6dKf0p"
+
+ApiConnection.prototype.getRandomImages = async function  (count) {
     const request_url = 
-    API_URL + "?api_key=" + API_KEY + count
+    this.API_URL + "?api_key=" + this.API_KEY + "&count="+ count
 
     const resposta = await fetch (request_url)
     if (resposta.ok){
@@ -94,22 +98,22 @@ async function getRandomImages (count) {
     throw new Error("Error fetching API, status: " + resposta.status)
 }
 
-async function getImagesForDataRange (
+ApiConnection.prototype.getImagesForDataRange = async function  (
     start_date,
-    end_date
-) {
-    let request_url = API_URL + "?api_key=" + API_KEY
+    end_date) 
+    {
+    let request_url = this.API_URL + "?api_key=" + this.API_KEY
     if (end_date){
         request_url += "&start_date=" + start_date + "&end_date=" + end_date
     } else {
         request_url += "&start_date=" + start_date
     }
 
-    const resp = await fetch (request_url)
+    const resposta = await fetch (request_url)
     if (resposta.ok) {
         return await resposta.json ()
     }
-    throw new Error ("Error fetching API, status: " + resposta.json()
+    throw new Error ("Error fetching API, status: " + resposta.json())
     }
 
 
