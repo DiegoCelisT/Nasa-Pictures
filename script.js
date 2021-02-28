@@ -56,7 +56,7 @@ function createImage (url, description){
 
 //Card quando não chega a requisição:
 function createSampleCard (){
-    return createCard ("Carregando...", "...") //Como não tem url nem description ela vai entrar no else da função createImage
+    return createCard ("Loading...", "Loading...") //Como não tem url nem description ela vai entrar no else da função createImage
 }
 
 
@@ -82,38 +82,56 @@ function createSampleCard (){
 
 //VERSÃO COM FUNÇÕES ASSINCRONAS:
 
-function ApiConnection (){}
+class ApiConnection {
+    constructor() {
+        this.API_URL = "https://api.nasa.gov/planetary/apod"
+        this.API_KEY = "7Z5aFEtTEyGbgYlpb57oIQq3UdxF3EnI4x6dKf0p"
+     }
+    async getRandomImages(count) {
+        const request_url = this.API_URL + "?api_key=" + this.API_KEY + "&count=" + count
 
-ApiConnection.prototype.API_URL = "https://api.nasa.gov/planetary/apod"
-ApiConnection.prototype.API_KEY = "7Z5aFEtTEyGbgYlpb57oIQq3UdxF3EnI4x6dKf0p"
-
-ApiConnection.prototype.getRandomImages = async function  (count) {
-    const request_url = 
-    this.API_URL + "?api_key=" + this.API_KEY + "&count="+ count
-
-    const resposta = await fetch (request_url)
-    if (resposta.ok){
-        return await resposta.json ()
+        const resposta = await fetch(request_url)
+        if (resposta.ok) {
+            return await resposta.json()
+        }
+        throw new Error("Error fetching API, status: " + resposta.status)
     }
-    throw new Error("Error fetching API, status: " + resposta.status)
+    async getImagesForDataRange(start_date,
+        end_date) {
+        let request_url = this.API_URL + "?api_key=" + this.API_KEY
+        if (end_date) {
+            request_url += "&start_date=" + start_date + "&end_date=" + end_date
+        } else {
+            request_url += "&start_date=" + start_date
+        }
+
+        const resposta = await fetch(request_url)
+        if (resposta.ok) {
+            return await resposta.json()
+        }
+        throw new Error("Error fetching API, status: " + resposta.json())
+    }
 }
 
-ApiConnection.prototype.getImagesForDataRange = async function  (
-    start_date,
-    end_date) 
-    {
-    let request_url = this.API_URL + "?api_key=" + this.API_KEY
-    if (end_date){
-        request_url += "&start_date=" + start_date + "&end_date=" + end_date
-    } else {
-        request_url += "&start_date=" + start_date
+document.addEventListener ("DOMContentLoaded", function startApp(){
+    const search_results_el = document.getElementById ("search-results")
+    const api_connection = new ApiConnection()
+    
+    for (let i=0; i<12; i++){ //Legal deixar isso para quando demore um poquinho em recarregar
+        search_results_el.appendChild(createSampleCard ())
     }
 
-    const resposta = await fetch (request_url)
-    if (resposta.ok) {
-        return await resposta.json ()
-    }
-    throw new Error ("Error fetching API, status: " + resposta.json())
-    }
+    api_connection.getRandomImages (12)
+    .then(results => {
+        search_results_el.innerHTML =""
+        results.forEach (result => {
+            search_results_el.appendChild(
+            createCard(result.title, result.explanation, result.url, result.title)
+            )
+        })
+    })
+})
+
+
 
 
