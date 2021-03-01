@@ -11,17 +11,17 @@
 </head>
 <body>
     <header class="py-4 mb-4" style="background-color: rgb(34, 18, 173); color: white;">
-        <h1 class="text-center">Imagens da Nasa para curiosos do nosso universo</h1>
+        <h1 class="text-center">NASA images for onlookers from this universe</h1>
     </header>
 
-    <div class="container">
-        <form onsubmit="Selecionando_valor (event)" id="search-form">
-            <div class="row">
-                <fieldset class="col-auto text-center text-md-start"> <!--Se a gente colocar o atributo disabled, tudo o que ficar dentro fica desabilitado<!-->
+    <div class="container" id="formulario">
+        <form onsubmit="Selecionando_valor (event)" id="search-form" justify-content-center>
+            <div class="row" >
+                <!-- <fieldset class="col-auto text-center text-md-start"> 
                     <legend>Escolha o tipo de pesquisa</legend>
 
                     <div class="form-check">
-                        <input class="form-check-input"
+                        <input id="ojito" class="form-check-input"
                         type="radio"
                         id="search-type-random"
                         name="search-type"
@@ -42,11 +42,11 @@
                         class="form-check-label"  for="search-type-random">Imagens por período
                         </label>
                     </div>                
-                </fieldset>
+                </fieldset> -->
 
-                <fieldset class="col-auto" data-search-type-fieldset="random">
-                    <legend>Imagens aleatórias</legend>
-                    <label for="random_qty">Quantidade</label>
+                <fieldset class="col-auto" data-search-type-fieldset="random" >
+                    <legend>Random Images</legend>
+                    <label for="random_qty">Number of images you want to watch:</label>
                     <input
                     class="form-control"
                     name="random_qty"
@@ -56,7 +56,7 @@
                     />
                 </fieldset>
 
-                <fieldset class="col-auto" data-search-type-fieldset="date-range" disabled>
+                <!-- <fieldset class="col-auto" data-search-type-fieldset="date-range" disabled>
                     <legend>Imagens por período</legend>
                     <div class="row">
                         <div class="col-auto">
@@ -79,10 +79,10 @@
                             />
                         </div>     
                     </div>
-                </fieldset>
+                </fieldset> -->
             </div>
-            <div class="my-2">
-                <button class="btn btn-primary" type="submit">Pesquisar</button> <!--Se a gente não botar type:submit, da igual, porque o botão esta dentro de um formulario e esse é o comportamento padrão dele, vou deixar para que fique só de forma explicita-->
+            <div id = "div_button" class="my-5">
+                <button id="button" class="btn btn-primary" type="submit">Search</button> <!--Se a gente não botar type:submit, da igual, porque o botão esta dentro de um formulario e esse é o comportamento padrão dele, vou deixar para que fique só de forma explicita-->
             </div>
         </form>
     </div>

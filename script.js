@@ -80,6 +80,7 @@ function createSampleCard (){
 //     console.log (erro)
 // })
 
+
 //VERSÃO COM FUNÇÕES ASSINCRONAS:
 
 class ApiConnection {
@@ -115,8 +116,6 @@ class ApiConnection {
 
     
 
-
-
 //Agora o evento para mostrar resultados
 document.addEventListener ("DOMContentLoaded", function startApp(){
     const search_results_el = document.getElementById ("search-results")
@@ -129,33 +128,33 @@ document.addEventListener ("DOMContentLoaded", function startApp(){
         // preventDefault()
         let valor_selecionado = document.querySelector ("#random_qty");
         let valor_random = valor_selecionado.value;
-        console.log (valor_random)
-    
-
+        
     api_connection.getRandomImages (valor_random)
     .then(results => {
         search_results_el.innerHTML =""
         results.forEach (result => {
             search_results_el.appendChild(
             createCard(result.title,
-                       truncateText(result.explanation, 200),
+                       truncateText(result.explanation, 300),
                        result.url,
                        result.title)
             )
         })
-    }) 
+    })
 })
+
 
 //Quando se faz o SUBMBIT
 function Selecionando_valor (event){
+    event.preventDefault()
     const search_results_el = document.getElementById ("search-results")
     const api_connection = new ApiConnection()
         
-        event.preventDefault()
+        
         let valor_selecionado = document.querySelector ("#random_qty");
         let valor_random = valor_selecionado.value;
-        console.log (valor_random)
-    
+        
+        
 
     api_connection.getRandomImages (valor_random)
     .then(results => {
@@ -174,6 +173,22 @@ function Selecionando_valor (event){
 
 
 
+// async getImagesForDataRange(start_date,
+//         end_date) {
+//         let request_url = this.API_URL + "?api_key=" + this.API_KEY
+//         if (end_date) {
+//             request_url += "&start_date=" + start_date + "&end_date=" + end_date
+//         } else {
+//             request_url += "&start_date=" + start_date
+//         }
+
+
+
+
+
+
+
+
 //Vamos cortar a descrição para que não fique tão grande:
 function truncateText (text, max){
     if (text.length <max){
@@ -184,12 +199,6 @@ function truncateText (text, max){
 
 //Vamos dar interatividade real ao seletor de opções:
 
-// function displayCardPlaceholders(search_results_el, results) {
-//     for (let i=0; i<12; i++){ //Legal deixar isso para quando demore um poquinho em recarregar
-//         search_results_el.appendChild(createSampleCard ())
-// }
-
-
 document.addEventListener("DOMContentLoaded", function startApp() {
     const search_results_el = document.getElementById("search-results")
     const search_form_el = document.getElementById ("search-form")
@@ -198,7 +207,7 @@ document.addEventListener("DOMContentLoaded", function startApp() {
 
     // displayCardPlaceholders(search_results_el, results)
         
-    // api_connection
+    // Api_connection
     //     .getRandomImages(15)
     //     .then((results) => displayResultsAsCards(search_results_el, results))
     //     .catch((err) => console.error(err))
@@ -225,6 +234,9 @@ document.addEventListener("DOMContentLoaded", function startApp() {
     // )
 
 //Para habilitar e desabilitar os inputs:
+
+let contador=1
+let tipo_de_pesquisa=""
 Array.from (search_type_option_els).forEach((opt_el) => {
     opt_el.addEventListener(
         "change",
@@ -232,7 +244,20 @@ Array.from (search_type_option_els).forEach((opt_el) => {
             document.querySelectorAll("[data-search-type-fieldset]").forEach(fs => {
                 fs.disabled = event.target.value !== fs.dataset.searchTypeFieldset
             })
+            
+            contador=contador+1 //isso para definir qual o tipo de busca que a gente vai fazer
+            
+            if(contador%2 == 0){
+                tipo_de_pesquisa = "date-range"
+                console.log(tipo_de_pesquisa);
+                
+            }else{
+                tipo_de_pesquisa = "random"
+                console.log(tipo_de_pesquisa);
+                
+            }
         }
+        
     )
 })
 

@@ -6,3 +6,31 @@
 height: 12rem;
 object-fit: cover;
 }
+
+form{
+    display: flex;
+    
+    justify-content: center;
+    align-content: center;
+}
+
+fieldset{
+    justify-content: center;
+    align-content: center;
+}
+
+#formulario{
+    
+    justify-content: space-evenly;
+    align-content: center;
+}
+
+label, button, legend{
+    align-self: center;
+}
+
+#div_button{
+    padding-left: 40px;
+    padding-top: 20px;
+}
+
