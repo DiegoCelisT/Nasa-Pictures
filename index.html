@@ -15,7 +15,7 @@
     </header>
 
     <div class="container">
-        <form action="">
+        <form onsubmit="Selecionando_valor (event)" id="search-form">
             <div class="row">
                 <fieldset class="col-auto text-center text-md-start"> <!--Se a gente colocar o atributo disabled, tudo o que ficar dentro fica desabilitado<!-->
                     <legend>Escolha o tipo de pesquisa</legend>
@@ -23,40 +23,40 @@
                     <div class="form-check">
                         <input class="form-check-input"
                         type="radio"
-                        id="searche-type-random"
-                        name="searche-type"
+                        id="search-type-random"
+                        name="search-type"
                         value="random"
                         checked
                         />
-                        <label class="form-check-label" for="searche-type-random">Imagens aleatórias
+                        <label class="form-check-label" for="search-type-random">Imagens aleatórias
                         </label>
                     </div>
                     <div class="form-check">
                         <input class="form-check-input"
                         type="radio"
-                        id="searche-type-date-range"
-                        name="searche-type"
+                        id="search-type-date-range"
+                        name="search-type"
                         value="date-range"
                         />
                         <label
-                        class="form-check-label"  for="searche-type-random">Imagens por período
+                        class="form-check-label"  for="search-type-random">Imagens por período
                         </label>
                     </div>                
                 </fieldset>
 
-                <fieldset class="col-auto">
+                <fieldset class="col-auto" data-search-type-fieldset="random">
                     <legend>Imagens aleatórias</legend>
-                    <label for="random-qty">Quantidade</label>
+                    <label for="random_qty">Quantidade</label>
                     <input
                     class="form-control"
-                    name="random-qty"
-                    id="random-qty"
+                    name="random_qty"
+                    id="random_qty"
                     type="number"
-                    value="10"           
+                    value="8"           
                     />
                 </fieldset>
 
-                <fieldset class="col-auto">
+                <fieldset class="col-auto" data-search-type-fieldset="date-range" disabled>
                     <legend>Imagens por período</legend>
                     <div class="row">
                         <div class="col-auto">

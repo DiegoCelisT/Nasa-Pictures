@@ -113,6 +113,11 @@ class ApiConnection {
     }
 }
 
+    
+
+
+
+//Agora o evento para mostrar resultados
 document.addEventListener ("DOMContentLoaded", function startApp(){
     const search_results_el = document.getElementById ("search-results")
     const api_connection = new ApiConnection()
@@ -120,18 +125,115 @@ document.addEventListener ("DOMContentLoaded", function startApp(){
     for (let i=0; i<12; i++){ //Legal deixar isso para quando demore um poquinho em recarregar
         search_results_el.appendChild(createSampleCard ())
     }
+    
+        // preventDefault()
+        let valor_selecionado = document.querySelector ("#random_qty");
+        let valor_random = valor_selecionado.value;
+        console.log (valor_random)
+    
 
-    api_connection.getRandomImages (12)
+    api_connection.getRandomImages (valor_random)
     .then(results => {
         search_results_el.innerHTML =""
         results.forEach (result => {
             search_results_el.appendChild(
-            createCard(result.title, result.explanation, result.url, result.title)
+            createCard(result.title,
+                       truncateText(result.explanation, 200),
+                       result.url,
+                       result.title)
+            )
+        })
+    }) 
+})
+
+//Quando se faz o SUBMBIT
+function Selecionando_valor (event){
+    const search_results_el = document.getElementById ("search-results")
+    const api_connection = new ApiConnection()
+        
+        event.preventDefault()
+        let valor_selecionado = document.querySelector ("#random_qty");
+        let valor_random = valor_selecionado.value;
+        console.log (valor_random)
+    
+
+    api_connection.getRandomImages (valor_random)
+    .then(results => {
+        search_results_el.innerHTML =""
+        results.forEach (result => {
+            search_results_el.appendChild(
+            createCard(result.title,
+                       truncateText(result.explanation, 200),
+                       result.url,
+                       result.title)
             )
         })
     })
+}
+
+
+
+
+//Vamos cortar a descrição para que não fique tão grande:
+function truncateText (text, max){
+    if (text.length <max){
+        return text
+    }
+    return text.slice (0, max) + " (...)"
+}
+
+//Vamos dar interatividade real ao seletor de opções:
+
+// function displayCardPlaceholders(search_results_el, results) {
+//     for (let i=0; i<12; i++){ //Legal deixar isso para quando demore um poquinho em recarregar
+//         search_results_el.appendChild(createSampleCard ())
+// }
+
+
+document.addEventListener("DOMContentLoaded", function startApp() {
+    const search_results_el = document.getElementById("search-results")
+    const search_form_el = document.getElementById ("search-form")
+    const search_type_option_els = document.querySelectorAll ("[name=search-type]")
+    const api_connection = new ApiConnection ()
+
+    // displayCardPlaceholders(search_results_el, results)
+        
+    // api_connection
+    //     .getRandomImages(15)
+    //     .then((results) => displayResultsAsCards(search_results_el, results))
+    //     .catch((err) => console.error(err))
+
+    // search_form_el.addEventListener(
+    //     "submit",
+    //     function submitSearchAndLoadResults(event) {
+    //         event.preventDefault()
+
+    //         const form_data = new FormData (event.target)
+    //         const search_type = form_data.get("search-type")
+    //         const random_count = +form_data.get("random-qty")
+    //         if (search_type === "random" && random_count) {
+    //             // displayCardPlaceholders(
+    //             //     search_results_el,
+    //             //     random_count <= 15 ? random_count : 15
+    //             // )
+    //             api_connection
+    //             .getRandomImages(random_count)
+    //             .then((results) => displayResultsAsCards(search_results_el, results))
+    //             .catch ((err) => console.error(err))
+    //         }
+    //     }
+    // )
+
+//Para habilitar e desabilitar os inputs:
+Array.from (search_type_option_els).forEach((opt_el) => {
+    opt_el.addEventListener(
+        "change",
+        function changeEnabledSearchType(event) {
+            document.querySelectorAll("[data-search-type-fieldset]").forEach(fs => {
+                fs.disabled = event.target.value !== fs.dataset.searchTypeFieldset
+            })
+        }
+    )
 })
 
-
-
-
+})
