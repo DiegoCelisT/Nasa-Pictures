@@ -86,7 +86,7 @@ function createSampleCard (){
 class ApiConnection {
     constructor() {
         this.API_URL = "https://api.nasa.gov/planetary/apod"
-        this.API_KEY = "7Z5aFEtTEyGbgYlpb57oIQq3UdxF3EnI4x6dKf0p"
+        this.API_KEY = "clg0QI1qIlCPdG2jqi1RPQ2eEhh4fl5fuqCQNxiA"
      }
     async getRandomImages(count) {
         const request_url = this.API_URL + "?api_key=" + this.API_KEY + "&count=" + count
